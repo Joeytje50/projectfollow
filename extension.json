@@ -1,0 +1,58 @@
+{
+    "name": "ProjectFollow",
+    "version": "0.0.1",
+    "author": [
+        "Pim Bax"
+    ],
+    "url": "",
+    "namemsg": "projectFollow",
+    "descriptionmsg": "projectFollow-desc",
+    "license-name": "GPL-3.0+",
+    "type": "other",
+    "DefaultUserOptions": {
+        "echo-subscriptions-web-edit-thank": true,
+        "echo-subscriptions-email-edit-thank": false
+    },
+    "manifest_version": 1,
+    "MessagesDirs": {
+        "ProjectFollow": [
+            "i18n"
+        ]
+    },
+    "AutoloadClasses": {
+        "SpecialProjectWatchlist": "specials/SpecialProjectWatchlist.php",
+        "ProjectFollowHooks": "ProjectFollow.hooks.php",
+        "EchoProjectFollowPresentationModel": "ProjectFollow.presentationmodel.php",
+        "ProjectFollow": "ProjectFollow.class.php"
+    },
+    "ResourceModules": {
+        "ext.projectFollow": {
+            "scripts": [
+                "ext.projectFollow.js"
+            ],
+            "styles": [
+                "ext.projectFollow.css"
+            ],
+            "messages": [
+
+            ],
+            "dependencies": [
+
+            ]
+        }
+    },
+    "ResourceFileModulePaths": {
+        "localBasePath": "modules",
+        "remoteExtPath": "ProjectFollow/modules"
+    },
+    "SpecialPages": {
+        "ProjectWatchlist": "SpecialProjectWatchlist"
+    },
+    "ExtensionMessagesFiles": {
+        "ProjectFollowAlias": "ProjectFollow.alias.php"
+    },
+    "Hooks": {
+        "PageContentSaveComplete": "ProjectFollowHooks::onPageContentSaveComplete",
+        "BeforeCreateEchoEvent": "ProjectFollowHooks::onBeforeCreateEchoEvent"
+    }
+}

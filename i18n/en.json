@@ -1,0 +1,13 @@
+{
+    "@metadata": {
+        "authors": [
+            "Pim Bax"
+        ]
+    },
+    "projectFollow": "ProjectFollow",
+    "projectFollow-desc": "Creates an interface for putting entire projects on your watchlist and following changes to them.",
+    "special-projectWatchlist-intro": "Project Watchlist",
+    "special-projectWatchlist-title": "On this page you can see your project watchlist. Any changes to projects you follow will be displayed here.",
+    "echo-category-title-projectfollow-edit": "Followed projects",
+    "echo-pref-tooltip-projectfollow-edit": "Edits made to a project I follow"
+}

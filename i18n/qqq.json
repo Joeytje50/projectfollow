@@ -1,0 +1,11 @@
+{
+    "@metadata": {
+        "authors": [
+            "Pim Bax"
+        ]
+    },
+    "projectFollow": "The name of the extension",
+    "projectFollow-desc": "{{desc|name=ProjectFollow|url=}}",
+    "special-projectWatchlist-intro": "Description appearing on top of <tvar|1>Special:{{ll|ProjectWatchlist}}</>.",
+    "special-projectWatchlist-title": "Title of the special page Special:ProjectWatchlist"
+}
