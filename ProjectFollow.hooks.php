@@ -35,23 +35,36 @@ class ProjectFollowHooks {
 
 		$users = self::getFollowingUsers($wikiPage, $user);
 
-		$article = Article::newFromTitle($wikiPage->getTitle());
+		$ctx = new RequestContext();
 
-		$ctx = $article->getContext();
+		// create echo event based on https://www.mediawiki.org/wiki/Extension:Echo/Creating_a_new_notification_type
+		// and https://www.mediawiki.org/wiki/Notifications/Developer_guide#Hook_the_notification_into_the_Echo_extension
+		$echo = EchoEvent::create([
+			'type' => 'projectfollow-edit',
+			'title' => $wikiPage->getTitle(),
+			'extra' => [
+				'revid' => $revision->getId(),
+				'source' => 'page',
+				'excerpt' => EchoDiscussionParser::getEditExcerpt( $revision, $ctx->getLanguage() ),
+				'recipients' => $users,
+			],
+			'agent' => $user,
+		]);
+		return true;
+	}
 
-		// notify everyone in the list of users
-		foreach ($users as $u) {
-			// create echo event based on https://www.mediawiki.org/wiki/Extension:Echo/Creating_a_new_notification_type
-			EchoEvent::create([
-				'type' => 'projectfollow-edit',
-				'title' => $wikiPage->getTitle(),
-				'extra' => [
-					'revid' => $revision->getId(),
-					'source' => 'page',
-					'excerpt' => EchoDiscussionParser::getEditExcerpt( $revision, $ctx->getLanguage() ),
-				],
-				'agent' => $u,
-			]);
+	public static function onEchoGetDefaultNotifiedUsers( $event, &$users ) {
+		switch ( $event->getType() ) {
+			case 'projectfollow-edit':
+				$extra = $event->getExtra();
+				if ( !$extra || !isset( $extra['recipients'] ) ) {
+					break;
+				}
+				foreach ($extra->recipients as $u) {
+					$uid = $u->getId();
+					$users[$uid] = $u;
+				}
+				break;
 		}
 		return true;
 	}
@@ -108,7 +121,6 @@ class ProjectFollowHooks {
 			$conds .= "(wl_title = \"{$t->getDBkey()}\" AND wl_namespace = \"{$t->getNamespace()}\") OR ";
 		}
 		$conds = substr($conds, 0, -4); //trim the last " OR"
-		print_r($conds);
 		try {
 			$res = $dbr->select( 'watchlist', 'wl_user', $conds);
 		} catch (Exception $e) {
@@ -121,7 +133,6 @@ class ProjectFollowHooks {
 		while ($row = $dbr->fetchRow($res)) {
 			$users[] = User::newFromId($row[0]);
 		}
-		print_r($users);
 		$dbr->freeResult($res);
 		return $users;
 	}

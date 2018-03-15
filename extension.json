@@ -53,6 +53,7 @@
     },
     "Hooks": {
         "PageContentSaveComplete": "ProjectFollowHooks::onPageContentSaveComplete",
-        "BeforeCreateEchoEvent": "ProjectFollowHooks::onBeforeCreateEchoEvent"
+        "BeforeCreateEchoEvent": "ProjectFollowHooks::onBeforeCreateEchoEvent",
+        "EchoGetDefaultNotifiedUsers": "ProjectFollowHooks::onEchoGetDefaultNotifiedUsers"
     }
 }
