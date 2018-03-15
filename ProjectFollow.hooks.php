@@ -35,6 +35,8 @@ class ProjectFollowHooks {
 
 		$users = self::getFollowingUsers($wikiPage, $user);
 
+		$ctx = new RequestContext();
+
 		// notify everyone in the list of users
 		foreach ($users as $u) {
 			// create echo event based on https://www.mediawiki.org/wiki/Extension:Echo/Creating_a_new_notification_type
@@ -44,7 +46,7 @@ class ProjectFollowHooks {
 				'extra' => [
 					'revid' => $revision->getId(),
 					'source' => 'page',
-					'excerpt' => EchoDiscussionParser::getEditExcerpt( $revision, $this->getLanguage() ),
+					'excerpt' => EchoDiscussionParser::getEditExcerpt( $revision, $ctx->getLanguage() ),
 				],
 				'agent' => $u,
 			]);
@@ -75,8 +77,6 @@ class ProjectFollowHooks {
 				'web' => true,
 				'expandable' => true,
 			],
-			'user-locators' => ['ProjectFollow::locateUsersInList'],
-			//'user-filters' => ['ProjectFollow::locateMentionedUsers'],
 		];
 		$icons['projectfollow-edit'] = [
 			'path' => [
