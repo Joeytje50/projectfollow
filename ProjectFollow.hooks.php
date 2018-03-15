@@ -35,7 +35,9 @@ class ProjectFollowHooks {
 
 		$users = self::getFollowingUsers($wikiPage, $user);
 
-		$ctx = new RequestContext();
+		$article = Article::newFromTitle($wikiPage->getTitle());
+
+		$ctx = $article->getContext();
 
 		// notify everyone in the list of users
 		foreach ($users as $u) {
